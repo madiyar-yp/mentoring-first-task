@@ -1,5 +1,5 @@
 <div class="users-container">
-    <div *ngFor="let user of users">
+    <div *ngFor="let user of usersService.users">
         <app-user-card [user]="user" (deleteUser)="deleteUser($event)"></app-user-card>
     </div>
 </div>

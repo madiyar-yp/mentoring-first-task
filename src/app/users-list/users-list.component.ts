@@ -2,8 +2,9 @@ import { Component, inject } from "@angular/core";
 import { NgFor } from "@angular/common";
 import { UsersApiService } from "../users-api.service";
 import { UserCardComponent } from "./user-card/user-card.component";
+import { UsersService } from "../users.service";
 
-interface User {
+export interface User {
     id: number;
     name: string;
     email: string;
@@ -23,18 +24,19 @@ interface User {
 })
 export class UsersListComponent {
     readonly usersApiService = inject(UsersApiService);
-    users: User[] = [];
+    readonly usersService = inject(UsersService);
+
+    users = this.usersService.users;
 
     constructor() {
         this.usersApiService.getUsers().subscribe(
             (response: any) => {
-                this.users = response;
-                console.log(this.users)
+                this.usersService.setUsers(response);
             }
         )
     }
 
     deleteUser(id: number) {
-        this.users = this.users.filter((item: any) => id !== item.id)
+        this.usersService.deleteUser(id);
     }
 }
